@@ -16,7 +16,7 @@ const CreateParticipantController = () => {
     resolver: zodResolver(createParticipantSchema),
     defaultValues: {
       name: "",
-      grade: undefined,
+      grade: 0,
     },
   });
 
