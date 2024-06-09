@@ -1,0 +1,6 @@
+name = "sistema-corrida"
+compatibility_date = "2024-06-08"
+
+[vars]
+REDIS_URL = "https://classic-bluejay-51833.upstash.io"
+REDIS_TOKEN = "Acp5AAIncDFkZjZmZjFjMTkyN2I0N2Q1YmZjOWRhMDcyNzNiYWU1MnAxNTE4MzM"
