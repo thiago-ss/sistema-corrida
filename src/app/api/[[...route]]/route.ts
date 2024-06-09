@@ -1,11 +1,17 @@
-import redis from "@/lib/redisClient";
+import { env } from "hono/adapter";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
 import { Participant, Race, Team } from "@/lib/types";
+import { Redis } from "@upstash/redis/cloudflare";
 export const runtime = "edge";
 
 export const app = new Hono().basePath("/api");
+
+type EnvConfig = {
+  REDIS_URL: string;
+  REDIS_TOKEN: string;
+};
 
 // Middleware
 app.use("*", cors());
@@ -22,6 +28,11 @@ app.use("*", async (c, next) => {
 
 // GET /api/teams
 app.get("/teams", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const teams = ((await redis.get("teams")) as Team[]) || [];
   if (teams.length === 0) {
     return c.json({ message: "Nenhuma equipe cadastrada" });
@@ -31,6 +42,11 @@ app.get("/teams", async (c) => {
 
 // GET /api/teams/:id
 app.get("/teams/:id", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const teams = ((await redis.get("teams")) as Team[]) || [];
   const team = teams.find((team) => team.id === c.req.param("id"));
   if (!team) {
@@ -41,6 +57,11 @@ app.get("/teams/:id", async (c) => {
 
 // GET /api/races
 app.get("/races", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const races = ((await redis.get("races")) as Race[]) || [];
   if (races.length === 0) {
     return c.json({ message: "Nenhuma corrida cadastrada" });
@@ -50,6 +71,11 @@ app.get("/races", async (c) => {
 
 // POST /api/teams
 app.post("/teams", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const body: Team = await c.req.json();
   const teams = ((await redis.get("teams")) as Team[]) || [];
   teams.push(body);
@@ -59,6 +85,11 @@ app.post("/teams", async (c) => {
 
 // POST /api/races
 app.post("/races", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const body: Race = await c.req.json();
   const races = ((await redis.get("races")) as Race[]) || [];
   races.push(body);
@@ -68,6 +99,11 @@ app.post("/races", async (c) => {
 
 // GET /api/participants
 app.get("/participants", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const participants =
     ((await redis.get("participants")) as Participant[]) || [];
   if (participants.length === 0) {
@@ -78,6 +114,11 @@ app.get("/participants", async (c) => {
 
 // POST /api/participants
 app.post("/participants", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const body = await c.req.json();
   const participants =
     ((await redis.get("participants")) as Participant[]) || [];
@@ -91,6 +132,11 @@ app.post("/participants", async (c) => {
 
 // PUT /api/teams/:id/races
 app.put("/teams/:id/races", async (c) => {
+  const { REDIS_URL, REDIS_TOKEN } = env<EnvConfig>(c);
+  const redis = new Redis({
+    url: REDIS_URL,
+    token: REDIS_TOKEN,
+  });
   const body: Race = await c.req.json();
   const teams = ((await redis.get("teams")) as Team[]) || [];
   const team = teams.find((team) => team.id === c.req.param("id"));
