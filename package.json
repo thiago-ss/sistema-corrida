@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "wrangler deploy --minify --name sistema-corrida src/app/api/[[...route]]/route.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -63,6 +64,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
     "vaul": "^0.9.1",
+    "wrangler": "^3.60.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
