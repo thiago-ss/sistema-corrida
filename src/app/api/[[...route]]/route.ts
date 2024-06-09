@@ -4,6 +4,7 @@ import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
 import { Participant, Race, Team } from "@/lib/types";
 import { Redis } from "@upstash/redis/cloudflare";
+export const runtime = "edge";
 
 export const app = new Hono().basePath("/api");
 
@@ -150,4 +151,8 @@ app.put("/teams/:id/races", async (c) => {
   });
 });
 
-export default app;
+export const GET = handle(app);
+export const POST = handle(app);
+export const PUT = handle(app);
+
+export default app as never;
