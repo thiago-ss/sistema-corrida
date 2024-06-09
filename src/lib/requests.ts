@@ -2,12 +2,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Participant, Race, Team } from "./types";
 
-type Data = {
-  hello: string;
-};
-
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: "https://sistema-corrida.test-gg.workers.dev/api",
 });
 
 const fetchData = async <T>(url: string): Promise<T> => {
